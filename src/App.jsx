@@ -34,11 +34,11 @@ function AppContent() {
         {/* Center: Navigation Links */}
         <div className="header-center">
           {isHome ? (
-            <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+            <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
               <Link to="/about">About</Link>
             </nav>
           ) : (
-            <nav style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+            <nav style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
               <Link to="/fortune-cookie" style={{ fontSize: '0.85rem' }}>Cookie</Link>
               <Link to="/quote-generator" style={{ fontSize: '0.85rem' }}>Quote</Link>
               <Link to="/name-superpower" style={{ fontSize: '0.85rem' }}>Superpower</Link>
@@ -60,7 +60,8 @@ function AppContent() {
             >
               <button 
                 className="nav-dropdown-btn"
-                style={{ fontSize: '1rem', padding: '8px 14px' }}
+                style={{ fontSize: '0.95rem', padding: '8px 14px' }}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Other Tools <ChevronDown size={14} style={{ transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
               </button>
@@ -70,7 +71,7 @@ function AppContent() {
                   position: 'absolute', 
                   top: '100%', 
                   right: 0, 
-                  marginTop: '0', 
+                  marginTop: '0.25rem', 
                   background: 'var(--surface, var(--surface-color))', 
                   border: '1px solid var(--border, var(--border-color))', 
                   borderRadius: '16px', 
@@ -89,7 +90,7 @@ function AppContent() {
               )}
             </div>
           ) : (
-            <Link to="/" className="primary-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', padding: '0.4rem 1rem', fontSize: '0.85rem', boxShadow: 'none' }}>
+            <Link to="/" className="primary-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', padding: '0.45rem 0.9rem', fontSize: '0.85rem', boxShadow: 'none' }}>
               <ArrowLeft size={16} /> Back
             </Link>
           )}

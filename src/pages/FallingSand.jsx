@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Play, Pause, Trash2, Brush, ArrowLeft } from 'lucide-react';
+import { Play, Pause, Trash2, Brush } from 'lucide-react';
 
 // Elements and their properties
 const ELEMENTS = {
@@ -278,9 +277,14 @@ const FallingSand = () => {
     
     const rect = canvasRef.current.getBoundingClientRect();
     
-    // Support both mouse and touch
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    // Support pointer, mouse, and touch coordinates
+    let clientX = e.clientX;
+    let clientY = e.clientY;
+
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    }
     
     const scaleX = canvasRef.current.width / rect.width;
     const scaleY = canvasRef.current.height / rect.height;
@@ -320,19 +324,19 @@ const FallingSand = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem 1rem' }}>
-      <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-        <h2 style={{ fontSize: '3rem', marginBottom: '0.5rem', background: 'linear-gradient(45deg, var(--primary), #f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>🌊 Falling Sand</h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>A fully local physics sandbox. Play god.</p>
+    <div className="container" style={{ maxWidth: '1100px', margin: '0 auto', padding: '1.5rem 1rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <h2 className="page-title" style={{ fontSize: '2.5rem', marginBottom: '0.5rem', background: 'linear-gradient(45deg, var(--primary), #f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>🌊 Falling Sand</h2>
+        <p className="page-subtitle" style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>A fully local physics sandbox. Play god.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '2rem', alignItems: 'start' }}>
+      <div className="falling-sand-layout">
         
         {/* CANVAS CONTAINER */}
         <div style={{ 
           background: 'var(--surface)', 
           padding: '1rem', 
-          borderRadius: '24px', 
+          borderRadius: '20px', 
           boxShadow: 'var(--shadow-lg)',
           border: '1px solid var(--border)',
           display: 'flex',
@@ -353,29 +357,32 @@ const FallingSand = () => {
               onPointerUp={handlePointerUp}
               onPointerMove={handlePointerMove}
               onPointerLeave={handlePointerUp}
+              onPointerCancel={handlePointerUp}
               style={{ 
                 width: '100%', 
                 height: 'auto', 
                 display: 'block', 
                 touchAction: 'none',
-                cursor: 'crosshair'
+                cursor: 'crosshair',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
               }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Brush size={16} color="var(--primary)" /> Draw</span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>{isPaused ? <Pause size={16} color="#ef4444" /> : <Play size={16} color="#22c55e" />} {isPaused ? 'Paused' : 'Running'}</span>
           </div>
         </div>
 
         {/* CONTROLS */}
-        <div className="tool-card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2rem' }}>
+        <div className="tool-card falling-sand-controls">
           
-          <div>
+          <div style={{ width: '100%' }}>
             <h4 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '2px solid var(--border)', paddingBottom: '0.5rem' }}>
               Materials
             </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div className="falling-sand-materials-grid">
               {Object.keys(ELEMENTS).map((key) => {
                 const el = ELEMENTS[key];
                 const isActive = currentElement === el;
@@ -383,6 +390,7 @@ const FallingSand = () => {
                   <button 
                     key={key}
                     onClick={() => setCurrentElement(el)}
+                    className="material-btn"
                     style={{ 
                       padding: '0.6rem 0.5rem', 
                       background: isActive ? 'var(--primary)' : 'var(--bg-color)',
@@ -397,7 +405,8 @@ const FallingSand = () => {
                       alignItems: 'center',
                       gap: '0.5rem',
                       boxShadow: isActive ? '0 4px 12px rgba(255, 155, 81, 0.3)' : 'none',
-                      transition: 'all 0.2s ease'
+                      transition: 'all 0.2s ease',
+                      width: '100%'
                     }}
                   >
                     <div style={{ 
@@ -405,16 +414,19 @@ const FallingSand = () => {
                       height: '14px', 
                       borderRadius: '4px', 
                       backgroundColor: key === 'EMPTY' ? '#1e293b' : `rgba(${COLORS[el][0]},${COLORS[el][1]},${COLORS[el][2]}, 1)`,
-                      border: key === 'EMPTY' ? '1px dashed #94a3b8' : '1px solid rgba(0,0,0,0.1)'
+                      border: key === 'EMPTY' ? '1px dashed #94a3b8' : '1px solid rgba(0,0,0,0.1)',
+                      flexShrink: 0
                     }}></div>
-                    {key === 'EMPTY' ? 'ERASER' : key}
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {key === 'EMPTY' ? 'ERASER' : key}
+                    </span>
                   </button>
                 )
               })}
             </div>
           </div>
 
-          <div>
+          <div style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '2px solid var(--border)', paddingBottom: '0.5rem' }}>
               <h4 style={{ margin: 0 }}>Brush Size</h4>
               <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--primary)', background: 'var(--bg-color)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>{brushSize}px</span>
@@ -429,11 +441,11 @@ const FallingSand = () => {
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: 'auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: 'auto', width: '100%' }}>
             <button 
               className={isPaused ? "primary-btn" : "secondary-btn"} 
               onClick={() => setIsPaused(!isPaused)}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '1rem', fontSize: '1rem' }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.85rem', fontSize: '1rem' }}
             >
               {isPaused ? <><Play size={18}/> Resume Physics</> : <><Pause size={18}/> Freeze Time</>}
             </button>
@@ -444,7 +456,7 @@ const FallingSand = () => {
                 justifyContent: 'center', 
                 alignItems: 'center', 
                 gap: '0.5rem', 
-                padding: '1rem', 
+                padding: '0.85rem', 
                 fontSize: '1rem',
                 background: 'transparent',
                 color: '#ef4444',
@@ -452,7 +464,8 @@ const FallingSand = () => {
                 borderRadius: 'var(--radius-md)',
                 fontWeight: 600,
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                width: '100%'
               }}
               onMouseEnter={(e) => { e.target.style.background = '#ef4444'; e.target.style.color = '#fff'; }}
               onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = '#ef4444'; }}

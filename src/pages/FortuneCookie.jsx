@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { fortunes } from '../data/fortunes';
-import { Cookie, Copy, Share2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Copy } from 'lucide-react';
 
 const FortuneCookie = () => {
   const [fortune, setFortune] = useState(null);
@@ -29,28 +28,29 @@ const FortuneCookie = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', padding: '4rem 0' }}>
+    <div className="container page-container" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🥠 Fortune Cookie</h2>
-        <p style={{ color: 'var(--text-secondary)' }}>Just for fun — your random fortune.</p>
+        <h2 className="page-title" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🥠 Fortune Cookie</h2>
+        <p className="page-subtitle" style={{ color: 'var(--text-secondary)' }}>Just for fun — your random fortune.</p>
       </div>
 
       <div 
-        className="tool-card" 
+        className="tool-card tool-card-body" 
         style={{ 
-          minHeight: '300px', 
+          minHeight: '280px', 
           display: 'flex', 
           flexDirection: 'column', 
           alignItems: 'center', 
           justifyContent: 'center',
-          gap: '2rem',
+          gap: '1.5rem',
           backgroundColor: 'var(--surface)',
-          marginBottom: '2rem'
+          marginBottom: '2rem',
+          padding: '2rem 1.5rem'
         }}
       >
         <div 
           style={{ 
-            fontSize: '5rem', 
+            fontSize: '4.5rem', 
             transition: 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             transform: animating ? 'scale(1.2) rotate(15deg)' : (cracked ? 'scale(0)' : 'scale(1)'),
             opacity: cracked ? 0 : 1,
@@ -62,8 +62,8 @@ const FortuneCookie = () => {
         </div>
 
         {cracked && fortune && (
-          <div className="animate-pop" style={{ padding: '2rem', background: 'var(--bg-color)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', width: '100%' }}>
-            <p style={{ fontSize: '1.25rem', fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          <div className="animate-pop" style={{ padding: '1.5rem', background: 'var(--bg-color)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', width: '100%', boxSizing: 'border-box' }}>
+            <p style={{ fontSize: '1.15rem', fontStyle: 'italic', color: 'var(--text-primary)', marginBottom: '1.25rem', lineHeight: 1.6, wordBreak: 'break-word' }}>
               "{fortune}"
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
@@ -78,15 +78,15 @@ const FortuneCookie = () => {
           className="primary-btn" 
           onClick={crackCookie}
           disabled={animating}
-          style={{ fontSize: '1.2rem', padding: '1rem 2rem' }}
+          style={{ fontSize: '1.1rem', padding: '0.9rem 1.8rem' }}
         >
           {cracked ? 'ANOTHER FORTUNE' : 'CRACK THE COOKIE'}
         </button>
       </div>
 
-      <div style={{ textAlign: 'left', padding: '2rem', background: 'var(--surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-        <h3 style={{ marginBottom: '1rem' }}>How does it work?</h3>
-        <p style={{ color: 'var(--text-secondary)' }}>
+      <div className="info-box" style={{ textAlign: 'left', padding: '1.5rem', background: 'var(--surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+        <h3 style={{ marginBottom: '0.75rem', fontSize: '1.1rem' }}>How does it work?</h3>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem', lineHeight: 1.5 }}>
           Fortunes are generated completely locally in your browser from a fun curated list. No APIs, no tracking, just instant entertainment.
         </p>
       </div>
