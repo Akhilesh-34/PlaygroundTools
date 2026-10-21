@@ -22,15 +22,15 @@ function AppContent() {
   return (
     <div className="app-container">
       <header className="app-header">
-        
+
         {/* Left Side: Logo */}
         <div className="logo header-left">
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="https://pixel-tools-peach.vercel.app" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h1>PixelTools</h1>
             <span className="subtitle">Playground</span>
           </Link>
         </div>
-        
+
         {/* Center: Navigation Links */}
         <div className="header-center">
           {isHome ? (
@@ -53,12 +53,12 @@ function AppContent() {
         {/* Right Side: Back Button or Other Tools Dropdown */}
         <div className="header-right">
           {isHome ? (
-            <div 
-              style={{ position: 'relative' }} 
+            <div
+              style={{ position: 'relative' }}
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
             >
-              <button 
+              <button
                 className="nav-dropdown-btn"
                 style={{ fontSize: '0.95rem', padding: '8px 14px' }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -67,20 +67,20 @@ function AppContent() {
               </button>
 
               {dropdownOpen && (
-                <div style={{ 
-                  position: 'absolute', 
-                  top: '100%', 
-                  right: 0, 
-                  marginTop: '0.25rem', 
-                  background: 'var(--surface, var(--surface-color))', 
-                  border: '1px solid var(--border, var(--border-color))', 
-                  borderRadius: '16px', 
-                  padding: '0.5rem', 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  minWidth: '160px', 
-                  boxShadow: 'var(--shadow-lg, 0 10px 25px rgba(0,0,0,0.1))', 
-                  zIndex: 50 
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '0.25rem',
+                  background: 'var(--surface, var(--surface-color))',
+                  border: '1px solid var(--border, var(--border-color))',
+                  borderRadius: '16px',
+                  padding: '0.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minWidth: '160px',
+                  boxShadow: 'var(--shadow-lg, 0 10px 25px rgba(0,0,0,0.1))',
+                  zIndex: 50
                 }}>
                   <a href="https://pdf-tools-rose.vercel.app" className="nav-dropdown-item" style={{ justifyContent: 'flex-start' }}>PDF Tools</a>
                   <a href="https://design-tools-one.vercel.app" className="nav-dropdown-item" style={{ justifyContent: 'flex-start' }}>Design Tools</a>
